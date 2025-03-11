@@ -6,7 +6,7 @@ echo "🚀 Starting MySQL replication setup process..."
 # Run steps in sequence
 ./prepare_env.sh
 ./check_mysql_status.sh
-./configure_master.sh
+./configure_primary.sh
 ./configure_replica.sh
 ./check_replication_user.sh
 ./configure_clone_donor.sh
