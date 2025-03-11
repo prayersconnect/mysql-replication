@@ -17,7 +17,7 @@ source "config_utils.sh"
 # Default to server ID 2 if not provided
 SLAVE_SERVER_ID="${SLAVE_SERVER_ID:-2}"
 
-CONFIG_FILE="/etc/my.cnf"
+CONFIG_FILE="/etc/mysql/mysql.conf.d/mysqld.cnf"
 SECTION="mysqld"
 
 ##########################################################################
@@ -33,6 +33,7 @@ sudo cp -p "$CONFIG_FILE" "$backup_file"
 ##########################################################################
 echo "Configuring MySQL replica settings..."
 
+ensure_config_line "$CONFIG_FILE" "$SECTION" "mysql_native_password = ON"
 ensure_config_line "$CONFIG_FILE" "$SECTION" "server-id = $SLAVE_SERVER_ID"
 ensure_config_line "$CONFIG_FILE" "$SECTION" "log_bin = mysql-bin"
 ensure_config_line "$CONFIG_FILE" "$SECTION" "relay_log = relay-bin"
@@ -52,7 +53,7 @@ echo "✅ Replica configuration applied successfully."
 # Restart MySQL
 ##########################################################################
 echo "Restarting MySQL (Replica Node)..."
-sudo systemctl restart mysqld
+sudo systemctl restart mysql
 
 ##########################################################################
 # Install Clone Plugin

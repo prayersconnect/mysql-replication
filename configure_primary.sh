@@ -17,7 +17,7 @@ source "config_utils.sh"
 # Default to server ID 1 if not provided
 MASTER_SERVER_ID="${MASTER_SERVER_ID:-1}"
 
-CONFIG_FILE="/etc/my.cnf"
+CONFIG_FILE="/etc/mysql/mysql.conf.d/mysqld.cnf"
 SECTION="mysqld"
 
 ##########################################################################
@@ -33,6 +33,7 @@ sudo cp -p "$CONFIG_FILE" "$backup_file"
 ##########################################################################
 echo "Configuring MySQL master settings..."
 
+ensure_config_line "$CONFIG_FILE" "$SECTION" "mysql_native_password = ON"
 ensure_config_line "$CONFIG_FILE" "$SECTION" "server-id = $MASTER_SERVER_ID"
 ensure_config_line "$CONFIG_FILE" "$SECTION" "log-bin = mysql-bin"
 ensure_config_line "$CONFIG_FILE" "$SECTION" "binlog_format = ROW"
@@ -53,7 +54,7 @@ echo "✅ Master configuration applied successfully."
 # Restart MySQL
 ##########################################################################
 echo "Restarting MySQL (Master Node)..."
-sudo systemctl restart mysqld
+sudo systemctl restart mysql
 
 ##########################################################################
 # Install Clone Plugin
