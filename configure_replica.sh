@@ -60,7 +60,9 @@ sudo systemctl restart mysql
 ##########################################################################
 echo "Checking if Clone plugin is installed on the Replica..."
 PLUGIN_INFO=$(mysql -u"$RECIPIENT_ADMIN_USER" -p"$RECIPIENT_ADMIN_PASS" -N -s \
-    -e "SHOW PLUGINS LIKE 'clone';" 2>/dev/null || true)
+    -e "SELECT PLUGIN_NAME, PLUGIN_STATUS
+        FROM information_schema.PLUGINS
+        WHERE PLUGIN_NAME = 'clone';" 2>/dev/null || true)
 
 if [[ -z "$PLUGIN_INFO" ]]; then
     echo "Clone plugin not found on Replica. Installing it..."

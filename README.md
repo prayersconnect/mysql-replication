@@ -24,7 +24,8 @@ export RECIPIENT_HOST="<HOST>"
 
 ## Setup Steps
 - Configure creds (.env) and provide all credentials
-
+- As the clone will even replace users, it'll remove your recipient's user. 
+  So it's better you create a local (recpient) user same as the donor's credentials for the smooth cloning and replication process. 
 ## Clone & Replicate
 This step will clone the entire mysql instance. **Remember, any data/databases on the recipient (replica) will be destroyed.**
 
